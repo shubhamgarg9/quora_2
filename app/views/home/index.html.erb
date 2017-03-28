@@ -1,7 +1,10 @@
+<%= link_to 'topics' , '/topics'  %>
+
 <h1>Home Page</h1>
 
 <%= form_tag '/create_question' do %>
 Ask a question:   <%= text_field_tag :content  %>
+    Topic: <%= text_field_tag :topic  %>
     <%= submit_tag :submit  %>
 <% end %>
 

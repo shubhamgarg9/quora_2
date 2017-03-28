@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170324175025) do
+ActiveRecord::Schema.define(version: 20170328155112) do
 
   create_table "answers", force: :cascade do |t|
     t.text     "content"
@@ -52,6 +52,22 @@ ActiveRecord::Schema.define(version: 20170324175025) do
 
   add_index "questions", ["user_id"], name: "index_questions_on_user_id"
 
+  create_table "topic_question_mappings", force: :cascade do |t|
+    t.integer  "topic_id"
+    t.integer  "question_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "topic_question_mappings", ["question_id"], name: "index_topic_question_mappings_on_question_id"
+  add_index "topic_question_mappings", ["topic_id"], name: "index_topic_question_mappings_on_topic_id"
+
+  create_table "topics", force: :cascade do |t|
+    t.text     "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "upvote_counts", force: :cascade do |t|
     t.integer  "count"
     t.integer  "answer_id"
@@ -70,6 +86,16 @@ ActiveRecord::Schema.define(version: 20170324175025) do
 
   add_index "upvotes", ["answer_id"], name: "index_upvotes_on_answer_id"
   add_index "upvotes", ["user_id"], name: "index_upvotes_on_user_id"
+
+  create_table "user_chosen_topics", force: :cascade do |t|
+    t.integer  "topic_id"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "user_chosen_topics", ["topic_id"], name: "index_user_chosen_topics_on_topic_id"
+  add_index "user_chosen_topics", ["user_id"], name: "index_user_chosen_topics_on_user_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false

@@ -8,4 +8,5 @@ class User < ActiveRecord::Base
   has_many :answers
   has_many :upvotes
   has_many :downvotes
+  has_many :user_chosen_topics
 end

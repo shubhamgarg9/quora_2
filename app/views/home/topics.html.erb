@@ -1,0 +1,18 @@
+<h2>Topics you are not Following</h2>
+<%= form_tag '/add_topic' do  %>
+    <% @topicsNotFollowing.each do |topic| %>
+        <%= check_box_tag 'topic_ids[]', topic.id %>
+        <%= h topic.content %><br>
+    <% end %>
+    <%= submit_tag 'submit' %>
+<% end %>
+
+
+<h2>Topics you are Following</h2>
+<%= form_tag '/remove_topic' do  %>
+    <% @topicsFollowing.each do |topic| %>
+        <%= check_box_tag 'topic_ids[]' , topic.id  %>
+        <%= h topic.content  %><br>
+    <% end %>
+    <%= submit_tag 'submit' %>
+<% end %>

@@ -7,7 +7,22 @@ class HomeController < ApplicationController
   end
 
   def create_question
-    current_user.questions.create(content: params[:content])
+    topic = params[:topic]
+    question = current_user.questions.create(content: params[:content])
+    topic = topic.to_s.downcase
+    topicsAll = Topic.all
+    flag = 0
+    topicsAll.each do |existingTopic|
+      if topic == existingTopic.content.to_s.downcase
+        TopicQuestionMapping.create(question_id: question.id , topic_id: existingTopic.id)
+        flag = 1
+        break
+      end
+    end
+    if flag == 0
+      newTopic = Topic.create(content: params[:topic])
+      TopicQuestionMapping.create(question_id: question.id , topic_id: newTopic.id)
+    end
     return redirect_to '/'
   end
 
@@ -52,6 +67,41 @@ class HomeController < ApplicationController
       count.save
     end
     return redirect_to '/'
+  end
+
+  def topics
+    @topicsAll = Topic.all.order(:content)
+
+    @topicsNotFollowing = []
+    @topicsFollowing = []
+
+    @topicsAll.each do |topic|
+      @topicsNotFollowing.push(topic)
+    end
+
+    @topicsAll.each do |topic|
+      if topic.user_chosen_topics.where(user_id: current_user.id).length > 0
+        @topicsNotFollowing.delete(topic)
+        @topicsFollowing.push(topic)
+      end
+    end
+  end
+
+  def add_topic
+    all_topics = params[:topic_ids].collect {|id| id.to_i} if params[:topic_ids]
+    # all_topics = params[:topics]
+    all_topics.each do |topic|
+      current_user.user_chosen_topics.create(topic_id: topic)
+    end
+    return redirect_to '/topics'
+  end
+
+  def remove_topic
+    all_topics = params[:topic_ids].collect {|id| id.to_i} if params[:topic_ids]
+    all_topics.each do |topic|
+      current_user.user_chosen_topics.destroy(topic_id: topic)
+    end
+    return redirect_to '/topics'
   end
 
 end
