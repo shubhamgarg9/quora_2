@@ -1,0 +1,21 @@
+<ul>
+
+<% question.answers.each do |answer| %>
+
+      <li><%= answer.content  %> , <%= answer.user.email  %> , <%= answer.created_at  %></li><br>
+
+      <% if answer.upvotes.where(user_id: current_user).length > 0 %>
+          <%= link_to "Cancel Upvote" ,  url_for(controller: :home, action: :upvote, answer_id: answer.id), method: :post %>
+      <% else %>
+          <%= link_to "Upvote" , url_for(controller: :home, action: :upvote, answer_id: answer.id), method: :post %>
+      <% end %>
+
+      <% if answer.downvotes.where(user_id: current_user).length > 0 %>
+          <%= link_to "Cancel Downvote" ,  url_for(controller: :home, action: :downvote, answer_id: answer.id), method: :post %>
+      <% else %>
+          <%= link_to "Downvote" , url_for(controller: :home, action: :downvote, answer_id: answer.id), method: :post %>
+      <% end %>
+
+<% end %>
+
+</ul>

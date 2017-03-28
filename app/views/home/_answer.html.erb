@@ -1,0 +1,5 @@
+<%= form_tag '/create_answer' do %>
+    Answer: <%= text_field_tag :answer  %>
+  <%= hidden_field_tag :question_id , "#{question.id}" %>
+    <%= submit_tag :submit  %>
+<% end %>

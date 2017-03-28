@@ -1,0 +1,14 @@
+<h1>Home Page</h1>
+
+<%= form_tag '/create_question' do %>
+Ask a question:   <%= text_field_tag :content  %>
+    <%= submit_tag :submit  %>
+<% end %>
+
+<ul>
+<% @questions.each do |question| %>
+    <li><%= question.content  %> , <b><%= question.user.email  %></b> , <%= question.created_at  %></li><br>
+    <%= render 'answers_available' , :question => question  %>
+    <%= render 'answer' , :question => question %>
+<% end %>
+</ul>
