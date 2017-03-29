@@ -12,7 +12,7 @@ Ask a question:   <%= text_field_tag :content  %>
 <ul>
 <% @questions.each do |question| %>
     <li><%= question.content  %> , <b><%= question.user.email  %></b> , <%= question.created_at  %></li><br>
-    <%= render 'answers_available' , :question => question  %>
-    <%= render 'answer' , :question => question %>
+      <%= render 'answer' , :question => question %>
+      <%= render 'answers_available' , :question => question  %>
 <% end %>
 </ul>

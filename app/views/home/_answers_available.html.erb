@@ -1,21 +1,15 @@
 <ul>
 
-<% question.answers.each do |answer| %>
+  <% puts 'bababababababababbababababababa' %>
+  <% puts question %>
+  <% puts 'bababababababababbababababababa' %>
 
-      <li><%= answer.content  %> , <%= answer.user.email  %> , <%= answer.created_at  %></li><br>
+  <% if question.answers.length > 0 %>
+  <!--For most upvoted answer-->
+      <%= render 'answer_display' , answer: question.answers.first  %>
+  <% end %>
 
-      <% if answer.upvotes.where(user_id: current_user).length > 0 %>
-          <%= link_to "Cancel Upvote" ,  url_for(controller: :home, action: :upvote, answer_id: answer.id), method: :post %>
-      <% else %>
-          <%= link_to "Upvote" , url_for(controller: :home, action: :upvote, answer_id: answer.id), method: :post %>
-      <% end %>
-
-      <% if answer.downvotes.where(user_id: current_user).length > 0 %>
-          <%= link_to "Cancel Downvote" ,  url_for(controller: :home, action: :downvote, answer_id: answer.id), method: :post %>
-      <% else %>
-          <%= link_to "Downvote" , url_for(controller: :home, action: :downvote, answer_id: answer.id), method: :post %>
-      <% end %>
-
-<% end %>
+  <!--For showing all answers and commenting over answers-->
+  <%= link_to 'more' , url_for(controller: :home , action: :question_display , question: question )  %>
 
 </ul>

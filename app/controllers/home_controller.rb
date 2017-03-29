@@ -89,10 +89,6 @@ class HomeController < ApplicationController
   def add_topic
     all_topics = params[:topic_ids].collect {|id| id.to_i} if params[:topic_ids]
     # all_topics = params[:topics]
-    puts 'dadadadadadadadadadadadadadadadadadadadadadadada'
-    puts all_topics
-    puts 'here'
-    puts 'dadadadadadadadadadadadadadadadaaddaaddaadadadad'
     all_topics.each do |topic|
       current_user.user_topics.create(topic_id: topic)
     end
@@ -101,11 +97,8 @@ class HomeController < ApplicationController
 
   def remove_topic
     all_topics = params[:topic_ids].collect {|id| id.to_i} if params[:topic_ids]
-    puts 'dadadadadadadadadadadadadadadadadadadadadadadada'
-    puts all_topics
-    puts 'dadadadadadadadadadadadadadadadaaddaaddaadadadad'
     all_topics.each do |topic|
-      mapping = UserTopic.where(topic_id: topic , user_id: current_user.id).first                         #error
+      mapping = UserTopic.where(topic_id: topic , user_id: current_user.id).first
       mapping.destroy
     end
     return redirect_to '/topics'
@@ -133,6 +126,11 @@ class HomeController < ApplicationController
 
   def followees
     @users = current_user.followees
+  end
+
+  def question_display
+    @question = Question.find(params[:question])
+    puts @question
   end
 
 end
