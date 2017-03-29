@@ -2,8 +2,7 @@ class HomeController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @questions = Question.includes(:user , :answers).all.order(:created_at)
-
+    @questions = current_user.feed
   end
 
   def create_question
@@ -14,14 +13,14 @@ class HomeController < ApplicationController
     flag = 0
     topicsAll.each do |existingTopic|
       if topic == existingTopic.content.to_s.downcase
-        TopicQuestionMapping.create(question_id: question.id , topic_id: existingTopic.id)
+        existingTopic.topic_question_mappings.create(question_id: question.id)
         flag = 1
         break
       end
     end
     if flag == 0
       newTopic = Topic.create(content: params[:topic])
-      TopicQuestionMapping.create(question_id: question.id , topic_id: newTopic.id)
+      newTopic.topic_question_mappings.create(question_id: question.id)
     end
     return redirect_to '/'
   end
@@ -80,7 +79,7 @@ class HomeController < ApplicationController
     end
 
     @topicsAll.each do |topic|
-      if topic.user_chosen_topics.where(user_id: current_user.id).length > 0
+      if topic.user_topics.where(user_id: current_user.id).length > 0
         @topicsNotFollowing.delete(topic)
         @topicsFollowing.push(topic)
       end
@@ -90,18 +89,50 @@ class HomeController < ApplicationController
   def add_topic
     all_topics = params[:topic_ids].collect {|id| id.to_i} if params[:topic_ids]
     # all_topics = params[:topics]
+    puts 'dadadadadadadadadadadadadadadadadadadadadadadada'
+    puts all_topics
+    puts 'here'
+    puts 'dadadadadadadadadadadadadadadadaaddaaddaadadadad'
     all_topics.each do |topic|
-      current_user.user_chosen_topics.create(topic_id: topic)
+      current_user.user_topics.create(topic_id: topic)
     end
     return redirect_to '/topics'
   end
 
   def remove_topic
     all_topics = params[:topic_ids].collect {|id| id.to_i} if params[:topic_ids]
+    puts 'dadadadadadadadadadadadadadadadadadadadadadadada'
+    puts all_topics
+    puts 'dadadadadadadadadadadadadadadadaaddaaddaadadadad'
     all_topics.each do |topic|
-      current_user.user_chosen_topics.destroy(topic_id: topic)
+      mapping = UserTopic.where(topic_id: topic , user_id: current_user.id).first                         #error
+      mapping.destroy
     end
     return redirect_to '/topics'
+  end
+
+  def follow
+    followee_id = params[:followee_id]
+    follow_mapping = FollowMapping.where(:follower_id => current_user.id, :followee_id => followee_id).first
+    unless follow_mapping
+      FollowMapping.create(:follower_id => current_user.id, :followee_id => followee_id)
+    else
+      follow_mapping.destroy
+    end
+
+    return redirect_to '/users'
+  end
+
+  def users
+    @users = User.where('id != ?', current_user.id)
+  end
+
+  def followers
+    @users = current_user.followers
+  end
+
+  def followees
+    @users = current_user.followees
   end
 
 end

@@ -6,8 +6,6 @@ Rails.application.routes.draw do
 
   post '/create_answer' => 'home#create_answer'
 
-  # get '/question/:id' => 'home#question_details'
-
   post '/upvote' => 'home#upvote'
 
   post '/downvote' => 'home#downvote'
@@ -16,7 +14,16 @@ Rails.application.routes.draw do
 
   post '/add_topic' => 'home#add_topic'
 
-  post '/remove_topic' => 'home#remove#topic'
+  post '/remove_topic' => 'home#remove_topic'
+
+  post '/follow' => 'home#follow'
+
+  get '/users' => 'home#users'
+
+  get '/followers' => 'home#followers'
+
+  get '/followees' => 'home#followees'
+
 
   devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.

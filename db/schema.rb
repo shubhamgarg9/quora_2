@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170328155112) do
+ActiveRecord::Schema.define(version: 20170329062608) do
 
   create_table "answers", force: :cascade do |t|
     t.text     "content"
@@ -42,6 +42,16 @@ ActiveRecord::Schema.define(version: 20170328155112) do
 
   add_index "downvotes", ["answer_id"], name: "index_downvotes_on_answer_id"
   add_index "downvotes", ["user_id"], name: "index_downvotes_on_user_id"
+
+  create_table "follow_mappings", force: :cascade do |t|
+    t.integer  "follower_id"
+    t.integer  "followee_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "follow_mappings", ["followee_id"], name: "index_follow_mappings_on_followee_id"
+  add_index "follow_mappings", ["follower_id"], name: "index_follow_mappings_on_follower_id"
 
   create_table "questions", force: :cascade do |t|
     t.text     "content"
@@ -96,6 +106,16 @@ ActiveRecord::Schema.define(version: 20170328155112) do
 
   add_index "user_chosen_topics", ["topic_id"], name: "index_user_chosen_topics_on_topic_id"
   add_index "user_chosen_topics", ["user_id"], name: "index_user_chosen_topics_on_user_id"
+
+  create_table "user_topics", force: :cascade do |t|
+    t.integer  "topic_id"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "user_topics", ["topic_id"], name: "index_user_topics_on_topic_id"
+  add_index "user_topics", ["user_id"], name: "index_user_topics_on_user_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
