@@ -22,7 +22,8 @@ class User < ActiveRecord::Base
     users = followees.pluck(:id)
     questions = Question.includes(:user, :answers).where("id in (?)",questions_ids) + Question.includes(:user, :answers).where("user_id in (?)",users)
     questions = questions.uniq
-    questions.sort_by {|obj| obj.id}
+    # questions.sort_by {|obj| obj.id}
+    questions.shuffle!
   end
 
 end
