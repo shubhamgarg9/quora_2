@@ -1,15 +1,11 @@
 <ul>
 
-  <% puts 'bababababababababbababababababa' %>
-  <% puts question %>
-  <% puts 'bababababababababbababababababa' %>
-
   <% if question.answers.length > 0 %>
-  <!--For most upvoted answer-->
+  <!--For only 1  answer-->       <!--will add most upvoted answer later-->
       <%= render 'answer_display' , answer: question.answers.first  %>
   <% end %>
 
   <!--For showing all answers and commenting over answers-->
-  <%= link_to 'more' , url_for(controller: :home , action: :question_display , question: question )  %>
+  <%= link_to 'more' , url_for(controller: :home , action: :question_display , question: question ) %>
 
 </ul>

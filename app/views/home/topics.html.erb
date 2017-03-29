@@ -1,3 +1,6 @@
+<%= render 'topbar' %><br>
+
+
 <h2>Topics you are not Following</h2>
 <%= form_tag '/add_topic' do  %>
     <% @topicsNotFollowing.each do |topic| %>

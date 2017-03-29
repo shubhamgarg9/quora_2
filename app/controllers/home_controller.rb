@@ -130,7 +130,14 @@ class HomeController < ApplicationController
 
   def question_display
     @question = Question.find(params[:question])
-    puts @question
+  end
+
+  def create_comment
+    answer_id = params[:answer_id]
+    question_id = params[:question_id]
+    content = params[:comment]
+    Comment.create(answer_id: answer_id , content: content)
+    return redirect_to url_for(controller: :home , action: :question_display , question: question_id )
   end
 
 end

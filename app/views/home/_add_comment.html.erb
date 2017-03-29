@@ -1,0 +1,6 @@
+<%= form_tag '/create_comment' do %>
+    Add Comment: <%= text_field_tag :comment %>
+    <%= hidden_field_tag :answer_id , "#{answer_id}" %>
+    <%= hidden_field_tag :question_id , "#{question_id}" %>
+    <%= submit_tag :submit %>
+<% end %>

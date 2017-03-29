@@ -1,12 +1,23 @@
+<%= render 'topbar' %><br>
+
+
 <h2><b><u><%= @question.content  %></u></b></h2>
   <b><%= @question.user.email  %></b><br>
   <%= @question.created_at  %><br><br>
 
+
+
 <%= render 'answer' , :question => @question %><br><br>
+
+
 
 <% @question.answers.each do |answer| %>
     <%= render 'answer_display' , answer: answer %>
 
     <!--To add commenting-->
+    <%= render 'add_comment' , answer_id: answer.id , question_id: @question.id  %>
+
+    <!--To show all added comments-->
+    <%= render 'show_comments' , answer: answer  %>
 
 <% end %>

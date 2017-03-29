@@ -5,4 +5,5 @@ class Answer < ActiveRecord::Base
   has_many :downvotes
   has_one :upvote_count
   has_one :downvote_count
+  has_many :comments
 end
