@@ -28,6 +28,10 @@ Rails.application.routes.draw do
 
   post 'create_comment' => 'home#create_comment'
 
+  get '/profile' => 'home#profile'
+
+  post '/update_profile' => 'home#update_profile'
+
   devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
